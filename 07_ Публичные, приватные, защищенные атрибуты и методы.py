@@ -43,43 +43,85 @@
 #     def get_balance_with_profit(self):
 #         return self.balance + self.__calculate_profit()
 
-class Library:
+# class Library:
+#
+#     def __init__(self, books):
+#         self.__books = books
+#
+#     def __check_availability(self, name_book):
+#         if name_book in self.__books:
+#             return True
+#         return False
+#
+#     def search_book(self, name_book):
+#         if self.__check_availability(name_book):
+#             return True
+#         return False
+#
+#     def return_book(self, append_book):
+#         self.__books.append(append_book)
+#
+#     def _checkout_book(self, name_book):
+#         if name_book in self.__books:
+#             self.__books.remove(name_book)
+#             return True
+#         return False
+#
+# # Ниже код для проверки методов класса Library
+# library = Library(["War and Peace", "Moby-Dick", "Pride and Prejudice"])
+#
+# assert library._Library__books == ["War and Peace", "Moby-Dick", "Pride and Prejudice"]
+# assert library.search_book("Moby-Dick") == True
+# assert library.search_book("Jane Air") == False
+#
+# assert library._Library__check_availability("War and Peace") == True
+# assert library._checkout_book("Moby-Dick") == True
+# assert library._Library__books == ["War and Peace", "Pride and Prejudice"]
+#
+# assert library.search_book("Moby-Dick") == False
+# assert library.return_book("Moby-Dick") is None
+# assert library._Library__books == ["War and Peace", "Pride and Prejudice", "Moby-Dick"]
+# assert library.search_book("Moby-Dick") == True
+# print('Good')
 
-    def __init__(self, books):
-        self.__books = books
+class Employee:
 
-    def __check_availability(self, name_book):
-        if name_book in self.__books:
-            return True
-        return False
+    def __init__(self, name, position, hours_worked, hourly_rate):
+        self.name = name
+        self.__position = position
+        self.__hours_worked = hours_worked
+        self.__hourly_rate = hourly_rate
 
-    def search_book(self, name_book):
-        if self.__check_availability(name_book):
-            return True
-        return False
+    def __calculate_salary(self):
+        return self.__hours_worked * self.__hourly_rate
 
-    def return_book(self, append_book):
-        self.__books.append(append_book)
+    def _set_position(self, up_pos):
+        self.__position = up_pos
 
-    def _checkout_book(self, name_book):
-        if name_book in self.__books:
-            self.__books.remove(name_book)
-            return True
-        return False
+    def get_position(self):
+        return self.__position
 
-# Ниже код для проверки методов класса Library
-library = Library(["War and Peace", "Moby-Dick", "Pride and Prejudice"])
+    def get_salary(self):
+        return self.__calculate_salary()
 
-assert library._Library__books == ["War and Peace", "Moby-Dick", "Pride and Prejudice"]
-assert library.search_book("Moby-Dick") == True
-assert library.search_book("Jane Air") == False
+    def get_employee_details(self):
+        return f"Name: {self.name}, Position: {self.__position}, Salary: {self.__calculate_salary()}"
 
-assert library._Library__check_availability("War and Peace") == True
-assert library._checkout_book("Moby-Dick") == True
-assert library._Library__books == ["War and Peace", "Pride and Prejudice"]
+# Ниже код для проверки методов класса Employee
+employee = Employee("Джеки Чан", 'manager', 20, 40)
+assert employee.name == 'Джеки Чан'
+assert employee._Employee__hours_worked == 20
+assert employee._Employee__hourly_rate == 40
+assert employee._Employee__position == 'manager'
+assert employee.get_position() == 'manager'
+assert employee.get_salary() == 800
+assert employee._Employee__calculate_salary() == 800
+assert employee.get_employee_details() == 'Name: Джеки Чан, Position: manager, Salary: 800'
+employee._set_position('Director')
+assert employee.get_employee_details() == 'Name: Джеки Чан, Position: Director, Salary: 800'
 
-assert library.search_book("Moby-Dick") == False
-assert library.return_book("Moby-Dick") is None
-assert library._Library__books == ["War and Peace", "Pride and Prejudice", "Moby-Dick"]
-assert library.search_book("Moby-Dick") == True
+employee_2 = Employee("Пирс Броснан", 'actor', 35, 30)
+assert employee_2._Employee__calculate_salary() == 1050
+assert employee_2.get_employee_details() == 'Name: Пирс Броснан, Position: actor, Salary: 1050'
+
 print('Good')
