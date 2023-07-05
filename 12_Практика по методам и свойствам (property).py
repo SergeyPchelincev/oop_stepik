@@ -111,7 +111,7 @@ class File:
 
     def write(self, content):
         if self.is_deleted:
-            print(f'ErrorWriteFileDeleted({self.name}')
+            print(f'ErrorWriteFileDeleted({self.name})')
         if self.in_trash:
             print(f'ErrorWriteFileTrashed({self.name})')
         if not self.is_deleted and not self.in_trash:
@@ -132,8 +132,7 @@ class Trash:
     def clear():
         print('Очищаем корзину')
         for k in Trash.content:
-            el = File(k)
-            el.remove()
+            File.remove(k)
         Trash.content.clear()
         print('Корзина пуста')
 
@@ -141,10 +140,34 @@ class Trash:
     def restore():
         print('Восстанавливаем файлы из корзины')
         for k in Trash.content:
-            el = File(k)
-            el.restore_from_trash()
+            File.restore_from_trash(k)
         Trash.content.clear()
         print('Корзина пуста')
+
+# С предыдущего урока у вас должен быть создан класс  File, у которого имеется:
+#
+# метод __init__
+# метод  restore_from_trash
+# метод  remove
+# метод read
+# метод write
+# Далее создайте класс  Trash у которого есть:
+#
+# атрибут класса  content изначально равный пустому списку
+#
+# статик-метод  add, который принимает файл и сохраняет его в корзину: для этого нужно добавить его в атрибут content
+# и проставить файлу атрибут in_trash значение True. Если в метод add передается не экземпляр класса File,
+# необходимо вывести сообщение «В корзину добавлять можно только файл»
+#
+# статик-метод  clear, который запускает процесс очистки файлов в корзине. Необходимо для всех файлов,
+# хранящийся в атрибуте content , в порядке их добавления в корзину вызвать метод файла remove. Атрибут content  после
+# очистки должен стать пустым списком. Сама процедура очистки должна начинаться фразой «Очищаем корзину» и
+# заканчиваться фразой «Корзина пуста»
+#
+# статик-метод  restore, который запускает процесс восстановления файлов из корзины. Необходимо для всех файлов,
+# хранящийся в атрибуте content , в порядке их добавления в корзину вызвать метод файла restore_from_trash.
+# Атрибут content  после очистки должен стать пустым списком. Сама процедура восстановления должна начинаться
+#  фразой «Восстанавливаем файлы из корзины» и заканчиваться фразой «Корзина пуста»
 
 # Ниже код для проверки класса File и Trash
 
@@ -194,7 +217,7 @@ for f in [passwords, f2, f1]:
 Trash.clear()
 
 for file in [passwords, f2, f1]:
-    file.is_deleted is True
+    assert file.is_deleted is True
 
 assert Trash.content == [], 'После удаления файлов корзина должна была очиститься'
 
