@@ -222,3 +222,4 @@ for file in [passwords, f2, f1]:
 assert Trash.content == [], 'После удаления файлов корзина должна была очиститься'
 
 f1.read()
+# 11111111
