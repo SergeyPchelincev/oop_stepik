@@ -67,6 +67,8 @@ class Cart:
 #         {Имя товара} {Цена товара} {Количество товара} {Сумма}
         print('---Total: {self.total}---')
 
+
+
 billy = User('billy@rambler.ru')
 
 lemon = Product('lemon', 20)
