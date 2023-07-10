@@ -32,7 +32,9 @@ class User:
         self.__balance -= minus_balance
         return True
 
+
 class Cart:
+    list_price_product = []
 
     def __init__(self, user):
         self.user = user
@@ -40,13 +42,29 @@ class Cart:
         self.__total = 0
 
     def add(self, product, number_of_goods=1):
-        self.goods[product.name] = number_of_goods
-        self.__total += product.price
+        if product in self.goods:
+            self.goods[product] += number_of_goods
+        else:
+            self.goods[product] = number_of_goods
+            # Добавляю в список класса цену объекта и его название
+            Cart.list_price_product.append([product.price, product])
+        self.__total += product.price * number_of_goods
 
     def remove(self, product, number_of_goods=1):
-        if self.goods[product.name] >= number_of_goods:
-            self.goods[product.name] -= number_of_goods
-        if self.__total >= product.price:
+        if self.goods[product] >= number_of_goods:
+            self.goods[product] -= number_of_goods
+        else:
+            for numb, object_param in enumerate(Cart.list_price_product):
+                if product in object_param:
+                    price_prod = object_param[0]
+                    del Cart.list_price_product[numb]
+            total_prod = self.goods[product] * price_prod
+            self.goods.pop(product)
+
+        if total_prod:
+            self.__total -= total_prod
+        else:
+            self.__total >= product.price
             self.__total -= product.price
 
     @property
@@ -54,20 +72,19 @@ class Cart:
         return self.__total
 
     def order(self):
-        if User.payment(self.__total):
+        if self.user.payment(self.total):
             print('Заказ оплачен')
         else:
             print('Проблема с оплатой')
 
     def print_check(self):
         print('---Your check---')
-        for k, v in self.goods.items():
-            print(f'{k} {150} {v} {10}')
-
-#         {Имя товара} {Цена товара} {Количество товара} {Сумма}
-        print('---Total: {self.total}---')
-
-
+        for key_goods, value_goods in sorted(self.goods.items(), key=lambda x: x[0].name):
+            for list_prod in Cart.list_price_product:
+                if key_goods in list_prod:
+                    print(f'{key_goods.name} {list_prod[0]} {value_goods} {list_prod[0]*value_goods}')
+                    # {Имя товара} {Цена товара} {Количество товара} {Сумма}
+        print(f'---Total: {self.total}---')
 
 billy = User('billy@rambler.ru')
 
@@ -84,31 +101,31 @@ cart_billy.print_check()
 carrot 30 1 30
 lemon 20 2 40
 ---Total: 70---'''
-# cart_billy.add(lemon, 3)
-# cart_billy.print_check()
-# ''' Печатает текст ниже
-# ---Your check---
-# carrot 30 1 30
-# lemon 20 5 100
-# ---Total: 130---'''
-# cart_billy.remove(lemon, 6)
-# cart_billy.print_check()
-# ''' Печатает текст ниже
-# ---Your check---
-# carrot 30 1 30
-# ---Total: 30---'''
-# print(cart_billy.total) # 30
-# cart_billy.add(lemon, 5)
-# cart_billy.print_check()
-# ''' Печатает текст ниже
-# ---Your check---
-# carrot 30 1 30
-# lemon 20 5 100
-# ---Total: 130---'''
-# cart_billy.order()
-# ''' Печатает текст ниже
-# Не хватает средств на балансе. Пополните счет
-# Проблема с оплатой'''
-# cart_billy.user.deposit(150)
-# cart_billy.order() # Заказ оплачен
-# print(cart_billy.user.balance) # 20
+cart_billy.add(lemon, 3)
+cart_billy.print_check()
+''' Печатает текст ниже
+---Your check---
+carrot 30 1 30
+lemon 20 5 100
+---Total: 130---'''
+cart_billy.remove(lemon, 6)
+cart_billy.print_check()
+''' Печатает текст ниже
+---Your check---
+carrot 30 1 30
+---Total: 30---'''
+print(cart_billy.total) # 30
+cart_billy.add(lemon, 5)
+cart_billy.print_check()
+''' Печатает текст ниже
+---Your check---
+carrot 30 1 30
+lemon 20 5 100
+---Total: 130---'''
+cart_billy.order()
+''' Печатает текст ниже
+Не хватает средств на балансе. Пополните счет
+Проблема с оплатой'''
+cart_billy.user.deposit(150)
+cart_billy.order() # Заказ оплачен
+print(cart_billy.user.balance) # 20
