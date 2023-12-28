@@ -139,27 +139,178 @@
 # assert add2('hello') == "Сумма переданных значений = 0"
 #
 # print('Good')
+#
+#
+# class UnitedKingdom:
+#
+#     def get_capital(self):
+#         print("London is the capital of Great Britain.")
+#
+#     def get_language(self):
+#         print("English is the primary language of Great Britain.")
+#
+#
+# class Spain:
+#
+#     def get_capital(self):
+#         print("Madrid is the capital of Spain.")
+#
+#     def get_language(self):
+#         print("Spanish is the primary language of Spain.")
+#
+# obj_uk = UnitedKingdom()
+# obj_spa = Spain()
+# for country in (obj_spa, obj_uk):
+#     country.get_capital()
+#     country.get_language()
 
 
-class UnitedKingdom:
 
-    def get_capital(self):
-        print("London is the capital of Great Britain.")
+# class Building:
+#
+#     def __init__(self, floor):
+#         self.floor = {}
+#         for k in range(floor):
+#             self.floor[k+1] = None
+#
+#     def __setitem__(self, key, value):
+#         self.floor[key] = value
+#
+#     def __getitem__(self, item):
+#         return self.floor[item]
+#
+#     def __delitem__(self, key):
+#         self.floor[key] = None
+#
+# iron_building = Building(22)  # Создаем здание с 22 этажами
+# iron_building[0] = 'Reception'
+# iron_building[1] = 'Oscorp Industries'
+# iron_building[2] = 'Stark Industries'
+# print(iron_building[2])
+# del iron_building[2]
+# print(iron_building[2])
 
-    def get_language(self):
-        print("English is the primary language of Great Britain.")
+# class Song:
+#
+#     def __init__(self, title, artist):
+#         self.title = title
+#         self.artist = artist
+#
+# class Playlist:
+#
+#     def __init__(self):
+#         self.songs = []
+#
+#     def __getitem__(self, item):
+#         return self.songs[item]
+#
+#     def __setitem__(self, key, value):
+#         self.songs.insert(key, value)
+#
+#     def add_song(self, object):
+#         self.songs.append(object)
+
+# # Ниже код для проверки методов классов Song и Playlist
+#
+# playlist = Playlist()
+# assert len(playlist.songs) == 0
+# assert isinstance(playlist, Playlist)
+# playlist.add_song(Song("Paradise", "Coldplay"))
+# assert playlist[0].title == 'Paradise'
+# assert playlist[0].artist == 'Coldplay'
+# assert len(playlist.songs) == 1
+#
+# playlist[0] = Song("Resistance", "Muse")
+# assert playlist[0].title == 'Resistance'
+# assert playlist[0].artist == 'Muse'
+# assert playlist[1].title == 'Paradise'
+# assert playlist[1].artist == 'Coldplay'
+#
+# playlist[1] = Song("Helena", "My Chemical Romance")
+# assert playlist[1].title == 'Helena'
+# assert playlist[1].artist == 'My Chemical Romance'
+#
+# assert playlist[2].title == 'Paradise'
+# assert playlist[2].artist == 'Coldplay'
+# print('Good')
+
+class ShoppingCart:
+
+    def __init__(self):
+        self.items = {}
+
+    def __getitem__(self, item):
+        if item in self.items.keys():
+            return self.items[item]
+        return 0
+
+    def __setitem__(self, key, value):
+        self.items[key] = value
+
+    def __delitem__(self, key):
+        self.items.pop(key)
+
+    def add_item(self, name_item, quantity=1):
+        if name_item in self.items.keys():
+            self.items[name_item] += quantity
+        else:
+            self.items[name_item] = quantity
+
+    def remove_item(self, name_product, qua_name=1):
+        if name_product in self.items.keys():
+            if self.items[name_product] <= qua_name:
+                self.items.pop(name_product)
+            else:
+                self.items[name_product] -= qua_name
 
 
-class Spain:
+# Create a new shopping cart
+cart = ShoppingCart()
 
-    def get_capital(self):
-        print("Madrid is the capital of Spain.")
+# Add some items to the cart
+cart.add_item('Apple', 3)
+cart.add_item('Banana', 2)
+cart.add_item('Orange')
 
-    def get_language(self):
-        print("Spanish is the primary language of Spain.")
+assert cart['Banana'] == 2
+assert cart['Orange'] == 1
+assert cart['Kivi'] == 0
 
-obj_uk = UnitedKingdom()
-obj_spa = Spain()
-for country in (obj_spa, obj_uk):
-    country.get_capital()
-    country.get_language()
+cart.add_item('Orange', 9)
+assert cart['Orange'] == 10
+
+print("Shopping Cart:")
+for item_name in cart.items:
+    print(f"{item_name}: {cart[item_name]}")
+
+cart['Apple'] = 5
+cart['Banana'] = 7
+cart['Kivi'] = 11
+assert cart['Apple'] == 5
+assert cart['Banana'] == 7
+assert cart['Kivi'] == 11
+
+print("Updated Shopping Cart:")
+for item_name in cart.items:
+    print(f"{item_name}: {cart[item_name]}")
+
+# Remove an item from the cart
+cart.remove_item('Banana')
+assert cart['Banana'] == 6
+
+cart.remove_item('Apple', 4)
+assert cart['Apple'] == 1
+
+cart.remove_item('Apple', 2)
+assert cart['Apple'] == 0
+assert 'Apple' not in cart.items
+
+cart.remove_item('Potato')
+
+del cart['Banana']
+assert cart['Banana'] == 0
+assert 'Banana' not in cart.items
+
+print("Updated Shopping Cart:")
+for item_name in cart.items:
+    print(f"{item_name}: {cart[item_name]}")
